@@ -7,7 +7,7 @@ Shader "Custom/MapShader"
     }
     SubShader
     {
-        Tags { "RenderType" = "Opaque" "TerrianCompatile" = "True"}
+        Tags { "RenderType" = "Opaque" "TerrainCompatile" = "True"}
         LOD 100
 
         Pass
