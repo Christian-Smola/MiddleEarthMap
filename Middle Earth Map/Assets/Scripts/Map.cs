@@ -17,6 +17,35 @@ public class Map : MonoBehaviour
 
     private ComputeBuffer ShadingBuffer;
 
+    private class Region
+    {
+        private string Name;
+        private Color32 color;
+        private List<Area> AreaList = new List<Area>();
+
+        public static List<Region> RegionList = new List<Region>();
+
+        private class Area
+        {
+            private string Name;
+            private Color32 color;
+            private List<Province> ProvinceList = new List<Province>();
+
+            private class Province
+            {
+                private Color32 color;
+            }
+        }
+
+        public static void PopulateRegionList()
+        {
+            RegionList.Add(new Region("Eriador", new Color32(255, 0, 0, 255)));
+            RegionList.Add(new Region("Rhovanion", new Color32(0, 255, 0, 255)));
+        }
+
+        public Region(string name, Color32 col) => (Name, color) = (name, col);
+    }
+
     struct NationShading
     {
         public int ProvinceMapIndex;
@@ -27,6 +56,7 @@ public class Map : MonoBehaviour
 
     public void Start()
     {
+        Region.PopulateRegionList();
         ShaderSetup();
     }
 
