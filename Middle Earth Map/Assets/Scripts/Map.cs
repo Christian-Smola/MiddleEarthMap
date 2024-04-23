@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Map : MonoBehaviour
@@ -19,22 +20,24 @@ public class Map : MonoBehaviour
 
     private class Region
     {
-        private string Name;
-        private Color32 color;
-        private List<Area> AreaList = new List<Area>();
+        public string Name;
+        public Color32 color;
+        public List<Area> AreaList = new List<Area>();
 
         public static List<Region> RegionList = new List<Region>();
 
-        private class Area
+        public class Area
         {
-            private string Name;
-            private Color32 color;
-            private List<Province> ProvinceList = new List<Province>();
+            public string Name;
+            public Color32 color;
+            public List<Province> ProvinceList = new List<Province>();
 
-            private class Province
+            public class Province
             {
-                private Color32 color;
+                public Color32 color;
             }
+
+            public Area(string name, Color32 col) => (Name, color) = (name, col);
         }
 
         public static void PopulateRegionList()
@@ -74,9 +77,9 @@ public class Map : MonoBehaviour
 
         Texture2D[] textures = Resources.LoadAll<Texture2D>("Textures/Province Maps/");
 
-        Texture2DArray ProvinceTextureArray = ConvertTextureArray(textures);
+        AssignAreaIndices(textures);
 
-        //AssignAreaIndices(textures);
+        Texture2DArray ProvinceTextureArray = ConvertTextureArray(textures);
 
         textures = Resources.LoadAll<Texture2D>("Textures/Area Maps/");
 
@@ -99,13 +102,16 @@ public class Map : MonoBehaviour
         return TextureArray;
     }
 
-    //private void AssignAreaIndices(Texture2D[] textures)
-    //{
-    //    for (int x = 0; x < textures.Length; x++)
-    //    {
-    //        foreach
-    //    }
-    //}
+    private void AssignAreaIndices(Texture2D[] textures)
+    {
+        for (int x = 0; x < textures.Length; x++)
+        {
+            foreach (Region region in Region.RegionList)
+            {
+                List<Region.Area> areas = region.AreaList.Where(A => textures[x].name.Replace("_", " ") == "Province Map " + A.Name).ToList();
+            }
+        }
+    }
 
     private void SetInitialShaderProperties(Texture2DArray ProvinceTexs, Texture2DArray AreaTexs)
     {
