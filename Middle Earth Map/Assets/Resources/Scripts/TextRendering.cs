@@ -13,11 +13,18 @@ public class TextRendering
 
         public class GlyphData
         {
-            private int[] xCoords;
-            private int[] yCoords;
-            private int[] contourEndIndices;
+            public Vector2[] Points;
+            public int[] contourEndIndices;
 
-            public GlyphData(int[] x, int[] y, int[] EndPoints) => (xCoords, yCoords, contourEndIndices) = (x, y, EndPoints);
+            public GlyphData(int[] x, int[] y, int[] EndPoints)
+            {
+                Points = new Vector2[x.Length];
+
+                for (int i = 0; i < x.Length; i++)
+                    Points[i] = new Vector2(x[i], y[i]);
+
+                contourEndIndices = EndPoints;
+            }
         }
 
         public FontReader(string Path)
@@ -136,8 +143,6 @@ public class TextRendering
         reader.SkipBytes(4);
         UInt16 numTables = reader.ReadUInt16();
 
-        Debug.Log("Number of Tables: " + numTables);
-
         reader.SkipBytes(6);
 
         Dictionary<string, uint> tableLocationLookup = new Dictionary<string, uint>();
@@ -154,6 +159,8 @@ public class TextRendering
 
         reader.GoTo(tableLocationLookup["glyf"]);
         FontReader.GlyphData glyph = FontReader.ReadSimpleGlyph(reader);
-        Debug.Log("Glyph: " + glyph);
+
+        foreach (Vector2 point in glyph.Points)
+            Debug.Log(point);
     }
 }

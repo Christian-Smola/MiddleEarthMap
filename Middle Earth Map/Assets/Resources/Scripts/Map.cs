@@ -31,11 +31,14 @@ public class Map : MonoBehaviour
         {
             public string Name;
             public Color32 color;
+            public int IndexInArray;
             public List<Province> ProvinceList = new List<Province>();
 
             public class Province
             {
                 public Color32 color;
+                public int Selected;
+                public Nation Owner;
             }
 
             public Area(string name, Color32 col) => (Name, color) = (name, col);
@@ -48,6 +51,11 @@ public class Map : MonoBehaviour
         }
 
         public Region(string name, Color32 col) => (Name, color) = (name, col);
+    }
+
+    private class Nation
+    {
+        public Color32 color;
     }
 
     struct NationShading
@@ -68,6 +76,12 @@ public class Map : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
             TextRendering.ParseFont(Environment.CurrentDirectory + @"\Assets\Resources\Fonts\times.ttf");
+    }
+
+    private void OnDisable()
+    {
+        if (ShadingBuffer != null)
+            ShadingBuffer.Release();
     }
 
     private void ShaderSetup()
@@ -116,6 +130,9 @@ public class Map : MonoBehaviour
             foreach (Region region in Region.RegionList)
             {
                 List<Region.Area> areas = region.AreaList.Where(A => textures[x].name.Replace("_", " ") == "Province Map " + A.Name).ToList();
+
+                if (areas.Count > 0)
+                    areas[0].IndexInArray = x;
             }
         }
     }
@@ -138,7 +155,23 @@ public class Map : MonoBehaviour
 
     private int CreateNationMap()
     {
-        return 0;
+        List<NationShading> NationList = new List<NationShading>();
+
+        foreach (Region region in Region.RegionList)
+            foreach (Region.Area area in region.AreaList)
+                foreach (Region.Area.Province province in area.ProvinceList)
+                    NationList.Add(new NationShading()
+                    {
+                        ProvinceMapIndex = area.IndexInArray,
+                        Selected = province.Selected,
+                        NationColor = new Vector3(province.Owner.color.r / 255f, province.Owner.color.g / 255f, province.Owner.color.b / 255f),
+                        ProvinceColor = new Vector3(province.color.r / 255f, province.color.g / 255f, province.color.b / 255f)
+                    });
+
+        ShadingBuffer = new ComputeBuffer(NationList.Count, 32);
+        ShadingBuffer.SetData(NationList);
+
+        return NationList.Count;
     }
 
     private Texture2D[] RetrieveOutputTextures()

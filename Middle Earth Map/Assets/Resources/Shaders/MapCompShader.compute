@@ -1,14 +1,72 @@
-// Each #kernel tells which function to compile; you can have many kernels
 #pragma kernel CSMain
 
-// Create a RenderTexture with enableRandomWrite flag and set it
-// with cs.SetTexture
 RWTexture2D<float4> Result;
 
-[numthreads(8,8,1)]
-void CSMain (uint3 id : SV_DispatchThreadID)
-{
-    // TODO: insert actual code here!
+int OutputValue;
 
-    Result[id.xy] = float4(id.x & id.y, (id.x & 15)/15.0, (id.y & 15)/15.0, 0.0);
+Texture2D _TerrainMap;
+Texture2D _OutlineMap;
+
+Texture2DArray _ProvinceMaps;
+int _NumberOfProvinceMaps;
+
+Texture2DArray _AreaMaps;
+int _NumberOfAreaMaps;
+
+SamplerState sampler_ProvinceMaps_RepeatPoint;
+SamplerState sampler_ProvinceMaps;
+
+struct NationShading
+{
+	int ProvinceMapIndex;
+	int Selected;
+	float3 ProvinceColor;
+	float3 NationColor;
+};
+
+StructuredBuffer<NationShading> _ShadingData;
+int _ShadingDataCount;
+
+bool CompareColors(float3 colA, float3 colB)
+{
+	float Diff = 0.0f;
+
+	Diff = abs(colA.r - colB.r);
+	Diff += abs(colA.g - colB.g);
+	Diff += abs(colA.b - colB.b);
+
+	if (Diff < 0.15)
+		return true;
+	else
+		return false;
+}
+
+[numthreads(8, 8, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+	uint width, height;
+	Result.GetDimensions(width, height);
+
+	float2 uv = id.xy / float2(width, height) * 2 - 1;
+
+	float4 OutputTex = float4(0, 0, 0, 0);
+
+	if (OutputValue == 0)
+	{
+		for (int x = 0; x < _NumberOfProvinceMaps; x++)
+		{
+			float4 NewTex = _ProvinceMaps.SampleLevel(sampler_ProvinceMaps_RepeatPoint, float3(uv * 0.5f + 0.5f, x), 0);
+			OutputTex = lerp(NewTex, OutputTex, NewTex.a < 0.5f);
+		}
+	}
+	else if (OutputValue == 1)
+	{
+		for (int x = 0; x < _NumberOfAreaMaps; x++)
+		{
+			float4 NewTex = _AreaMaps.SampleLevel(sampler_ProvinceMaps_RepeatPoint, float3(uv * 0.5f + 0.5f, x), 0);
+			OutputTex = lerp(NewTex, OutputTex, NewTex.a < 0.5f);
+		}
+	}
+
+	Result[id.xy] = OutputTex;
 }
