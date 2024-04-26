@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,6 +62,12 @@ public class Map : MonoBehaviour
     {
         Region.PopulateRegionList();
         ShaderSetup();
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+            TextRendering.ParseFont(Environment.CurrentDirectory + @"\Assets\Fonts\times.ttf");
     }
 
     private void ShaderSetup()

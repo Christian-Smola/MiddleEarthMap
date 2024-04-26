@@ -385,6 +385,7 @@ GameObject:
   - component: {fileID: 1736992429}
   - component: {fileID: 1736992428}
   - component: {fileID: 1736992427}
+  - component: {fileID: 1736992430}
   m_Layer: 0
   m_Name: Middle Earth Terrain
   m_TagString: Untagged
@@ -452,6 +453,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1736992430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1736992426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 221ca361473aeae4ab1175688bbe5fb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Terrain: {fileID: 2800000, guid: 3733c2f7120584e41878660b17c5383c, type: 3}
+  Outline: {fileID: 2800000, guid: 81d8647398d317045a938ced4aa7af1b, type: 3}
+  CompShader: {fileID: 7200000, guid: 4043f5172762b144aaa9f6d3f2dc271c, type: 3}
+  MapMaterial: {fileID: 2100000, guid: a9344114ec3b743469eb9393dd25d6f7, type: 2}
 --- !u!1001 &1821627441
 PrefabInstance:
   m_ObjectHideFlags: 0

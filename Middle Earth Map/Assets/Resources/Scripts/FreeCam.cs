@@ -11,7 +11,7 @@ public class FreeCam : MonoBehaviour
     void Update()
     {
         if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
-            CursorStartPosition = Input.mousePosition;
+             CursorStartPosition = Input.mousePosition;
 
         if (Input.GetMouseButton(0))
         {
