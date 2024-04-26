@@ -67,7 +67,7 @@ public class Map : MonoBehaviour
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
-            TextRendering.ParseFont(Environment.CurrentDirectory + @"\Assets\Fonts\times.ttf");
+            TextRendering.ParseFont(Environment.CurrentDirectory + @"\Assets\Resources\Fonts\times.ttf");
     }
 
     private void ShaderSetup()
