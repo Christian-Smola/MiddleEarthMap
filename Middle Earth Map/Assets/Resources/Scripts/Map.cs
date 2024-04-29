@@ -39,6 +39,18 @@ public class Map : MonoBehaviour
                 public Color32 color;
                 public int Selected;
                 public Nation Owner;
+
+                public static void PopulateProvinceLists()
+                {
+                    Area area = Area.Find("Gap of Rohan");
+
+                    area.ProvinceList.Add(new Province(new Color32(255, 0, 0, 255), Nation.Find("Isengard")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 255, 0, 255), Nation.Find("Isengard")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 0, 255, 255), Nation.Find("Isengard")));
+                }
+
+
+                public Province(Color32 col, Nation owner) => (color, Owner) = (col, owner);
             }
 
             public static void PopulateAreaLists()
@@ -51,6 +63,18 @@ public class Map : MonoBehaviour
 
                 region.AreaList.Add(new Area("Gap of Rohan", new Color32(255, 0, 0, 255)));
                 region.AreaList.Add(new Area("Fangorn", new Color32(0, 255, 0, 255)));
+                region.AreaList.Add(new Area("Westemnet", new Color32(0, 0, 255, 255)));
+
+                Province.PopulateProvinceLists();
+            }
+
+            public static Area Find(string name)
+            {
+                foreach (Region region in RegionList)
+                    if (region.AreaList.Where(A => A.Name == name).Count() > 0)
+                        return region.AreaList.Where(A => A.Name == name).First();
+
+                return null;
             }
 
             public Area(string name, Color32 col) => (Name, color) = (name, col);
@@ -84,6 +108,11 @@ public class Map : MonoBehaviour
             NationList.Add(new Nation("Isengard", new Color32(255, 255, 255, 255)));
             NationList.Add(new Nation("Fangorn", new Color32(0, 151, 0, 255)));
             NationList.Add(new Nation("Rohan", new Color32(255, 0, 0, 255)));
+        }
+
+        public static Nation Find(string name)
+        {
+            return NationList.Where(N => N.Name == name).First();
         }
 
         public Nation(string name, Color32 col) => (Name, color) = (name, col);
@@ -177,6 +206,9 @@ public class Map : MonoBehaviour
 
         CompShader.SetTexture(0, "_ProvinceMaps", ProvinceTexs);
         CompShader.SetInt("_NumberOfProvinceMaps", ProvinceTexs.depth);
+
+        CompShader.SetTexture(0, "_AreaMaps", AreaTexs);
+        CompShader.SetInt("_NumberOfAreaMaps", AreaTexs.depth);
 
         CompShader.SetBuffer(0, "_ShadingData", ShadingBuffer);
         CompShader.SetInt("_ShadingDataCount", Count);
