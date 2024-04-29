@@ -41,6 +41,18 @@ public class Map : MonoBehaviour
                 public Nation Owner;
             }
 
+            public static void PopulateAreaLists()
+            {
+                Region region = Region.Find("Eriador");
+
+                region.AreaList.Add(new Area("Shire", new Color32(255, 0, 0, 255)));
+
+                region = Region.Find("Rhovanion");
+
+                region.AreaList.Add(new Area("Gap of Rohan", new Color32(255, 0, 0, 255)));
+                region.AreaList.Add(new Area("Fangorn", new Color32(0, 255, 0, 255)));
+            }
+
             public Area(string name, Color32 col) => (Name, color) = (name, col);
         }
 
@@ -48,6 +60,13 @@ public class Map : MonoBehaviour
         {
             RegionList.Add(new Region("Eriador", new Color32(255, 0, 0, 255)));
             RegionList.Add(new Region("Rhovanion", new Color32(0, 255, 0, 255)));
+
+            Area.PopulateAreaLists();
+        }
+
+        public static Region Find(string name)
+        {
+            return RegionList.Where(R => R.Name == name).First();
         }
 
         public Region(string name, Color32 col) => (Name, color) = (name, col);
@@ -55,7 +74,19 @@ public class Map : MonoBehaviour
 
     private class Nation
     {
+        public string Name;
         public Color32 color;
+
+        public static List<Nation> NationList = new List<Nation>();
+
+        public static void PopulateNationList()
+        {
+            NationList.Add(new Nation("Isengard", new Color32(255, 255, 255, 255)));
+            NationList.Add(new Nation("Fangorn", new Color32(0, 151, 0, 255)));
+            NationList.Add(new Nation("Rohan", new Color32(255, 0, 0, 255)));
+        }
+
+        public Nation(string name, Color32 col) => (Name, color) = (name, col);
     }
 
     struct NationShading
@@ -68,6 +99,7 @@ public class Map : MonoBehaviour
 
     public void Start()
     {
+        Nation.PopulateNationList();
         Region.PopulateRegionList();
         ShaderSetup();
     }
