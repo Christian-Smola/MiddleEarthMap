@@ -41,6 +41,15 @@ bool CompareColors(float3 colA, float3 colB)
 		return false;
 }
 
+float4 ColorSwap(float4 Input, float3 From, float3 To)
+{
+	float Distance = CompareColors(From, Input.rgb);
+
+	float4 Output = lerp(float4(0, 0, 0, 0), float4(To, 1), Distance);
+
+	return lerp(Output, float4(0, 0, 0, 0), Input.a < 0.1f);
+}
+
 [numthreads(8, 8, 1)]
 void CSMain(uint3 id : SV_DispatchThreadID)
 {
@@ -66,6 +75,23 @@ void CSMain(uint3 id : SV_DispatchThreadID)
 			float4 NewTex = _AreaMaps.SampleLevel(sampler_ProvinceMaps_RepeatPoint, float3(uv * 0.5f + 0.5f, x), 0);
 			OutputTex = lerp(NewTex, OutputTex, NewTex.a < 0.5f);
 		}
+	}
+	else if (OutputValue == 2)
+	{
+		for (int x = 0; x < _ShadingDataCount; x++)
+		{
+			float4 NewTex = _ProvinceMaps.SampleLevel(sampler_ProvinceMaps_RepeatPoint, float3(uv * 0.5f + 0.5f, _ShadingData[x].ProvinceMapIndex), 0);
+
+			float4 col = ColorSwap(NewTex, _ShadingData[x].ProvinceColor, _ShadingData[x].NationColor);
+
+			OutputTex = lerp(col, OutputTex, OutputTex.a > 0.5f);
+		}
+	}
+	else if (OutputValue == 3)
+	{
+		float4 Terrain = _TerrainMap.SampleLevel(sampler_ProvinceMaps_RepeatPoint, float2(uv * 0.5f + 0.5f), 0);
+		float4 Outline = _OutlineMap.SampleLevel(sampler_ProvinceMaps_RepeatPoint, float2(uv * 0.5f + 0.5f), 0);
+		OutputTex = lerp (Terrain, Outline, Outline.a > 0.1f);
 	}
 
 	Result[id.xy] = OutputTex;

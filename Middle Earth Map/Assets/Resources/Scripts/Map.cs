@@ -55,11 +55,11 @@ public class Map : MonoBehaviour
 
             public static void PopulateAreaLists()
             {
-                Region region = Region.Find("Eriador");
+                //Region region = Region.Find("Eriador");
 
-                region.AreaList.Add(new Area("Shire", new Color32(255, 0, 0, 255)));
+                //region.AreaList.Add(new Area("Shire", new Color32(255, 0, 0, 255)));
 
-                region = Region.Find("Rhovanion");
+                Region region = Region.Find("Rhovanion");
 
                 region.AreaList.Add(new Area("Gap of Rohan", new Color32(255, 0, 0, 255)));
                 region.AreaList.Add(new Area("Fangorn", new Color32(0, 255, 0, 255)));
@@ -82,7 +82,7 @@ public class Map : MonoBehaviour
 
         public static void PopulateRegionList()
         {
-            RegionList.Add(new Region("Eriador", new Color32(255, 0, 0, 255)));
+            //RegionList.Add(new Region("Eriador", new Color32(255, 0, 0, 255)));
             RegionList.Add(new Region("Rhovanion", new Color32(0, 255, 0, 255)));
 
             Area.PopulateAreaLists();
