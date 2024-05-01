@@ -2,7 +2,7 @@
 
 RWTexture2D<float4> Result;
 
-int OutputValue;
+int _OutputValue;
 
 Texture2D _TerrainMap;
 Texture2D _OutlineMap;
@@ -35,7 +35,7 @@ bool CompareColors(float3 colA, float3 colB)
 	Diff += abs(colA.g - colB.g);
 	Diff += abs(colA.b - colB.b);
 
-	if (Diff < 0.15)
+	if (Diff < 0.15f)
 		return true;
 	else
 		return false;
@@ -60,7 +60,7 @@ void CSMain(uint3 id : SV_DispatchThreadID)
 
 	float4 OutputTex = float4(0, 0, 0, 0);
 
-	if (OutputValue == 0)
+	if (_OutputValue == 0)
 	{
 		for (int x = 0; x < _NumberOfProvinceMaps; x++)
 		{
@@ -68,7 +68,7 @@ void CSMain(uint3 id : SV_DispatchThreadID)
 			OutputTex = lerp(NewTex, OutputTex, NewTex.a < 0.5f);
 		}
 	}
-	else if (OutputValue == 1)
+	else if (_OutputValue == 1)
 	{
 		for (int x = 0; x < _NumberOfAreaMaps; x++)
 		{
@@ -76,7 +76,7 @@ void CSMain(uint3 id : SV_DispatchThreadID)
 			OutputTex = lerp(NewTex, OutputTex, NewTex.a < 0.5f);
 		}
 	}
-	else if (OutputValue == 2)
+	else if (_OutputValue == 2)
 	{
 		for (int x = 0; x < _ShadingDataCount; x++)
 		{
@@ -87,7 +87,7 @@ void CSMain(uint3 id : SV_DispatchThreadID)
 			OutputTex = lerp(col, OutputTex, OutputTex.a > 0.5f);
 		}
 	}
-	else if (OutputValue == 3)
+	else if (_OutputValue == 3)
 	{
 		float4 Terrain = _TerrainMap.SampleLevel(sampler_ProvinceMaps_RepeatPoint, float2(uv * 0.5f + 0.5f), 0);
 		float4 Outline = _OutlineMap.SampleLevel(sampler_ProvinceMaps_RepeatPoint, float2(uv * 0.5f + 0.5f), 0);

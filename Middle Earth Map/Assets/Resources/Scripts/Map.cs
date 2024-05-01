@@ -169,9 +169,9 @@ public class Map : MonoBehaviour
 
         SetInitialShaderProperties(ProvinceTextureArray, AreaTextureArray);
 
-        textures = RetrieveOutputTextures();
+        Texture2D[] textures2 = RetrieveOutputTextures();
 
-        AssignOutputTextures(textures);
+        AssignOutputTextures(textures2);
     }
 
     private Texture2DArray ConvertTextureArray(Texture2D[] textures)
@@ -267,6 +267,6 @@ public class Map : MonoBehaviour
         MapMaterial.SetTexture("_ProvinceMap", textures[0]);
         MapMaterial.SetTexture("_AreaMap", textures[1]);
         MapMaterial.SetTexture("_NationMap", textures[2]);
-        MapMaterial.SetTexture("_TerrainMap", textures[3]);
+        MapMaterial.SetTexture("_Terrain", textures[3]);
     }
 }
