@@ -15,7 +15,7 @@ D:/Documents/GitHub Projects/Git/MiddleEarthMap/Middle Earth Map
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-49786
+50731
 Successfully changed project path to: D:/Documents/GitHub Projects/Git/MiddleEarthMap/Middle Earth Map
 D:/Documents/GitHub Projects/Git/MiddleEarthMap/Middle Earth Map
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -47,7 +47,7 @@ D:/Documents/GitHub Projects/Git/MiddleEarthMap/Middle Earth Map
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Refreshing native plugins compatible for Editor in 461.86 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 390.80 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2021.3.13f1 (9e7d58001ecf)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2021.3.13f1/Editor/Data/Resources/UnitySubsystems
@@ -63,89 +63,89 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2021.3.13f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2021.3.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2021.3.13f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56628
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56828
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.3.13f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.026943 seconds.
+Registered in 0.026330 seconds.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 437.84 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 383.43 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  3.887 seconds
+- Completed reload, in  3.662 seconds
 Domain Reload Profiling:
-	ReloadAssembly (3889ms)
-		BeginReloadAssembly (377ms)
+	ReloadAssembly (3664ms)
+		BeginReloadAssembly (492ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (0ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (3ms)
-		EndReloadAssembly (2892ms)
-			LoadAssemblies (368ms)
-			RebuildTransferFunctionScriptingTraits (1ms)
-			SetupTypeCache (689ms)
+			CreateAndSetChildDomain (4ms)
+		EndReloadAssembly (2560ms)
+			LoadAssemblies (481ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (637ms)
 			ReleaseScriptCaches (0ms)
-			RebuildScriptCaches (161ms)
-			SetupLoadedEditorAssemblies (1611ms)
+			RebuildScriptCaches (162ms)
+			SetupLoadedEditorAssemblies (1469ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (39ms)
-				SetLoadedEditorAssemblies (2ms)
-				RefreshPlugins (438ms)
-				BeforeProcessingInitializeOnLoad (7ms)
-				ProcessInitializeOnLoadAttributes (848ms)
-				ProcessInitializeOnLoadMethodAttributes (275ms)
+				InitializePlatformSupportModulesInManaged (41ms)
+				SetLoadedEditorAssemblies (1ms)
+				RefreshPlugins (384ms)
+				BeforeProcessingInitializeOnLoad (6ms)
+				ProcessInitializeOnLoadAttributes (776ms)
+				ProcessInitializeOnLoadMethodAttributes (260ms)
 				AfterProcessingInitializeOnLoad (0ms)
 				EditorAssembliesLoaded (1ms)
 			ExecutionOrderSort2 (0ms)
 			AwakeInstancesAfterBackupRestoration (0ms)
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.023647 seconds.
+Registered in 0.020221 seconds.
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory doesn't match image D:\Documents\GitHub Projects\Git\MiddleEarthMap\Middle Earth Map\Library\PackageCache\com.unity.visualscripting@1.7.8\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
 Symbol file LoadedFromMemory doesn't match image D:\Documents\GitHub Projects\Git\MiddleEarthMap\Middle Earth Map\Library\PackageCache\com.unity.visualscripting@1.7.8\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 2.86 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 1.73 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  5.560 seconds
+- Completed reload, in  6.312 seconds
 Domain Reload Profiling:
-	ReloadAssembly (5565ms)
-		BeginReloadAssembly (549ms)
+	ReloadAssembly (6317ms)
+		BeginReloadAssembly (566ms)
 			ExecutionOrderSort (0ms)
-			DisableScriptedObjects (29ms)
+			DisableScriptedObjects (41ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (86ms)
-		EndReloadAssembly (4379ms)
-			LoadAssemblies (375ms)
+			CreateAndSetChildDomain (91ms)
+		EndReloadAssembly (4976ms)
+			LoadAssemblies (383ms)
 			RebuildTransferFunctionScriptingTraits (0ms)
-			SetupTypeCache (1463ms)
+			SetupTypeCache (1386ms)
 			ReleaseScriptCaches (2ms)
-			RebuildScriptCaches (271ms)
-			SetupLoadedEditorAssemblies (2023ms)
+			RebuildScriptCaches (294ms)
+			SetupLoadedEditorAssemblies (2678ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (27ms)
-				SetLoadedEditorAssemblies (4ms)
-				RefreshPlugins (3ms)
-				BeforeProcessingInitializeOnLoad (441ms)
-				ProcessInitializeOnLoadAttributes (1359ms)
-				ProcessInitializeOnLoadMethodAttributes (158ms)
-				AfterProcessingInitializeOnLoad (29ms)
+				InitializePlatformSupportModulesInManaged (32ms)
+				SetLoadedEditorAssemblies (2ms)
+				RefreshPlugins (2ms)
+				BeforeProcessingInitializeOnLoad (473ms)
+				ProcessInitializeOnLoadAttributes (1868ms)
+				ProcessInitializeOnLoadMethodAttributes (262ms)
+				AfterProcessingInitializeOnLoad (39ms)
 				EditorAssembliesLoaded (1ms)
 			ExecutionOrderSort2 (0ms)
-			AwakeInstancesAfterBackupRestoration (43ms)
+			AwakeInstancesAfterBackupRestoration (40ms)
 Platform modules already initialized, skipping
 ========================================================================
 Worker process is ready to serve import requests
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.19 seconds
-Refreshing native plugins compatible for Editor in 2.65 ms, found 3 plugins.
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.21 seconds
+Refreshing native plugins compatible for Editor in 1.98 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3356 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 26 unused Assets / (93.8 KB). Loaded Objects now: 3824.
-Memory consumption went from 121.2 MB to 121.1 MB.
-Total: 12.796500 ms (FindLiveObjects: 0.767900 ms CreateObjectMapping: 0.623000 ms MarkObjects: 11.137100 ms  DeleteObjects: 0.265200 ms)
+Unloading 3358 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 27 unused Assets / (129.2 KB). Loaded Objects now: 3829.
+Memory consumption went from 127.9 MB to 127.8 MB.
+Total: 17.494000 ms (FindLiveObjects: 0.769100 ms CreateObjectMapping: 0.682200 ms MarkObjects: 15.690200 ms  DeleteObjects: 0.348400 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
@@ -160,67 +160,13 @@ AssetImportParameters requested are different than current active one (requested
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Import Request.
-  Time since last request: 478.826528 seconds.
-  path: Assets/Resources/Materials/MapMaterial.mat
-  artifactKey: Guid(a9344114ec3b743469eb9393dd25d6f7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/Materials/MapMaterial.mat using Guid(a9344114ec3b743469eb9393dd25d6f7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e554dabb6b831b4753a67d2165a675f9') in 0.881024 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 430.447135 seconds.
-  path: Assets/Resources/Scenes/Ocean Testing.unity
-  artifactKey: Guid(1754bafd1afb5134182125d47c5b0933) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/Scenes/Ocean Testing.unity using Guid(1754bafd1afb5134182125d47c5b0933) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '323e06608e49aa967eba53371e6744a0') in 0.025736 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 98.973816 seconds.
-  path: Assets/Resources/Shaders/Map_CompShader.compute
-  artifactKey: Guid(4043f5172762b144aaa9f6d3f2dc271c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/Shaders/Map_CompShader.compute using Guid(4043f5172762b144aaa9f6d3f2dc271c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '79858fdeeabbbc5b263de8869995ad16') in 0.072361 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 151.156947 seconds.
-  path: Assets/Resources/Shaders/Water_CompShader.compute
-  artifactKey: Guid(6f9d231209dc0634a86b2db5208fee50) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/Shaders/Water_CompShader.compute using Guid(6f9d231209dc0634a86b2db5208fee50) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7a22b90f68fc34b7f74da194d651c5c0') in 0.037949 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 38.814313 seconds.
-  path: Assets/Resources/Shaders/WaterShader.shader
-  artifactKey: Guid(6b336a6986223c643a324be42067b77e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/Shaders/WaterShader.shader using Guid(6b336a6986223c643a324be42067b77e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1315904a2dcdfd4b41656da56fcd1aa2') in 0.082558 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 2.445664 seconds.
-  path: Assets/Resources/Shaders/Map_Shader.shader
-  artifactKey: Guid(1e2c09b61e238654f897b2858790facd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/Shaders/Map_Shader.shader using Guid(1e2c09b61e238654f897b2858790facd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b940920393f56d5a4ecc5067fc3a3430') in 0.058765 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 6.205590 seconds.
-  path: Assets/Resources/Shaders/MapShader.shader
-  artifactKey: Guid(1e2c09b61e238654f897b2858790facd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/Shaders/MapShader.shader using Guid(1e2c09b61e238654f897b2858790facd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e1ea3cdc4b1d8d78f4eed98504ded5fd') in 0.031492 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 28.657591 seconds.
-  path: Assets/Resources/Shaders/Water_Shader.shader
-  artifactKey: Guid(6b336a6986223c643a324be42067b77e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/Shaders/Water_Shader.shader using Guid(6b336a6986223c643a324be42067b77e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0214232e18a267573a940ced45900126') in 0.027285 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 222.143458 seconds.
-  path: Assets/Resources/Shaders/Water_Shader.shader
-  artifactKey: Guid(6b336a6986223c643a324be42067b77e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/Shaders/Water_Shader.shader using Guid(6b336a6986223c643a324be42067b77e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '08eab12b6faa96f7bb2f56487dc1e251') in 0.017068 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 26.259108 seconds.
-  path: Assets/Resources/Shaders/OceanMat.mat
-  artifactKey: Guid(75f801ca164ddf245bfe70ce4fc412ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/Shaders/OceanMat.mat using Guid(75f801ca164ddf245bfe70ce4fc412ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8d196f3cfe6aed8e696d61359f65c0ce') in 0.104934 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 35.655596 seconds.
+  Time since last request: 17716.190579 seconds.
   path: Assets/Resources/Materials/OceanMat.mat
   artifactKey: Guid(75f801ca164ddf245bfe70ce4fc412ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/Materials/OceanMat.mat using Guid(75f801ca164ddf245bfe70ce4fc412ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'df039a910c56924464d5524d93cee274') in 0.161612 seconds 
+Start importing Assets/Resources/Materials/OceanMat.mat using Guid(75f801ca164ddf245bfe70ce4fc412ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '82bd507d0fbcc4f6f7c5bebcf061a86f') in 0.664106 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 7.844652 seconds.
+  path: Assets/Resources/Materials/OceanMat.mat
+  artifactKey: Guid(75f801ca164ddf245bfe70ce4fc412ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Materials/OceanMat.mat using Guid(75f801ca164ddf245bfe70ce4fc412ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2efb1c68350889d8e014e474b59292dd') in 0.059950 seconds 
