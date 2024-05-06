@@ -60,9 +60,9 @@ Shader "Custom/Map_Shader"
                 float4 Normal = tex2D(_NormalMap, i.uv);
 
                 float3 SunDir = _WorldSpaceLightPos0.xyz;
-                float3 shading = saturate(saturate(dot(Normal, SunDir) + 0.05)) * 1.5;
+                float3 shading = saturate(saturate(dot(Normal, SunDir) + 0.05)) * 5;
 
-                return float4(Terrain.xyz * shading, 1);
+                return Terrain;
             }
 
             ENDCG

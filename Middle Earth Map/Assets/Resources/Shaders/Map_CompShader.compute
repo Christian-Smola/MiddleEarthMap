@@ -91,7 +91,7 @@ void CSMain(uint3 id : SV_DispatchThreadID)
 	{
 		float4 Terrain = _TerrainMap.SampleLevel(sampler_ProvinceMaps_RepeatPoint, float2(uv * 0.5f + 0.5f), 0);
 		float4 Outline = _OutlineMap.SampleLevel(sampler_ProvinceMaps_RepeatPoint, float2(uv * 0.5f + 0.5f), 0);
-		OutputTex = lerp (Terrain, Outline, Outline.a > 0.1f);
+		OutputTex = lerp(Terrain, Outline, Outline.a > 0.1f);
 	}
 
 	Result[id.xy] = OutputTex;

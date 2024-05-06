@@ -244,7 +244,7 @@ public class Map : MonoBehaviour
 
         for (int x = 0; x < 4; x++)
         {
-            Texture2D texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
+            Texture2D texture = new Texture2D(width, height, TextureFormat.RGBA32, false, true);
 
             CompShader.SetInt("_OutputValue", x);
 
