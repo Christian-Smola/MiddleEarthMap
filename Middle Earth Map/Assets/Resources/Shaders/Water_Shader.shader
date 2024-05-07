@@ -29,6 +29,24 @@ Shader "Custom/Water_Shader"
                 float4 vertex : SV_POSITION;
             };
 
+            struct Wave
+            {
+                float2 dir;
+                float steepness;
+                float length;
+            };
+
+            Wave ConstructWave(float2 d, float s, float l)
+            {
+                Wave w;
+
+                w.dir = d;
+                w.steepness = s;
+                w.length = l;
+
+                return w;
+            }
+
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
@@ -51,40 +69,47 @@ Shader "Custom/Water_Shader"
 
             //based on the following article by Catlike Coding
             //https://catlikecoding.com/unity/tutorials/flow/waves/
-            appdata GerstnerWaves(appdata v)
+            float3 GerstnerWaves(Wave wave, float3 p, inout float3 tangent, inout float3 binormal)
             {
-                float3 p = v.vertex.xyz;
-
-                float Steepness = 4.0f;
-
-                float k = 2 * UNITY_PI / 20;
-                float a = Steepness / k;
+                float k = 2 * UNITY_PI / wave.length;
                 float c = sqrt(9.8 / k);
+                float2 d = normalize(wave.dir);
+                float f = k * (dot(d, p.xz) - c * _Time.y);
+                float a = wave.steepness / k;
 
-                float2 dir = normalize(float2(1, 1));
+                tangent += float3(
+                    -d.x * d.x * (wave.steepness * sin(f)),
+                    d.x * (wave.steepness * cos(f)),
+                    -d.x * d.y * (wave.steepness * sin(f))
+                    );
 
-                float f = k * (dot(dir, p.xz) - c * _Time.y);
+                binormal += float3(
+                    -d.x * d.y * (wave.steepness * sin(f)),
+                    d.y * (wave.steepness * cos(f)),
+                    -d.y * d.y * (wave.steepness * sin(f))
+                    );
 
-                //p.x += a * cos(f);
-                //p.y = a * sin(f);
-                p.x += dir.x * (a * cos(f));
-                p.y = a * sin(f);
-                p.z += dir.y * (a * cos(f));
-
-                float3 tangent = normalize(float3(1 - k * Steepness * sin(f), k * Steepness * cos(f), 0));
-                float3 normal = float3(-tangent.y, tangent.x, 0);
-                
-                v.vertex.xyz = p;
-                //v.normal = normal;
-
-                return v;
+                return float3(d.x * (a * cos(f)), a * sin(f), d.y * (a * cos(f)));
             }
 
             v2f vert (appdata v)
             {
                 v2f o;
 
-                v = GerstnerWaves(v);
+                Wave waveA = ConstructWave(float2(1, 1), 5.0f, 20);
+                Wave waveB = ConstructWave(float2(1, 0.2f), 13.0f, 12);
+
+                float3 gridPoint = v.vertex.xyz;
+                float3 tangent = float3(1, 0, 0);
+                float3 binormal = float3(0, 0, 1);
+                float3 p = gridPoint;
+
+                p += GerstnerWaves(waveA, gridPoint, tangent, binormal);
+                p += GerstnerWaves(waveB, gridPoint, tangent, binormal);
+
+                float3 normal = normalize(cross(binormal, tangent));
+
+                v.vertex.xyz = p;
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
