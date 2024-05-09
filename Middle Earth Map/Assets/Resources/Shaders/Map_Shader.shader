@@ -120,13 +120,14 @@ Shader "Custom/Map_Shader"
             {
                 v2f o;
 
-                float4 Ocean = tex2Dlod(_OceanMap, float4(v.uv, 0, 0));
+                //float4 Ocean = tex2Dlod(_OceanMap, float4(v.uv, 0, 0));
 
-                v.vertex.xyz = lerp(v.vertex.xyz, GenerateOcean(v.vertex.xyz), Ocean.a > 0.1f);
+                //v.vertex.xyz = lerp(v.vertex.xyz, GenerateOcean(v.vertex.xyz), Ocean.a > 0.1f);
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
 
                 o.uv = TRANSFORM_TEX(v.uv, _Terrain);
+
                 return o;
             }
 
@@ -141,7 +142,9 @@ Shader "Custom/Map_Shader"
                 float3 SunDir = _WorldSpaceLightPos0.xyz;
                 float3 shading = saturate(saturate(dot(Normal, SunDir) + 0.05)) * 5;
 
-                Terrain = lerp(Terrain, OceanCol, Ocean.a > 0.1);
+                Terrain = lerp(Terrain, float4(0, 0, 0, 0), Ocean.a > 0.1);
+
+                clip(Terrain.a - 0.5f);
 
                 return Terrain;
             }

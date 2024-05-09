@@ -3,10 +3,11 @@ Shader "Custom/Water_Shader"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _OceanMap ("Ocean Map", 2D) = "white" {}
     }
     SubShader
     {
-        Tags { "RenderType" = "Opaque" "TerrainCompatible" = "True" }
+        Tags { "RenderType" = "Transparent" "TerrainCompatible" = "True" }
         LOD 100
 
         Pass
@@ -49,6 +50,9 @@ Shader "Custom/Water_Shader"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+
+            sampler2D _OceanMap;
+            float4 _OceanMap_ST;
 
             float4 SimpleWaves(float x, float z)
             {
@@ -96,8 +100,8 @@ Shader "Custom/Water_Shader"
             {
                 v2f o;
 
-                Wave waveA = ConstructWave(float2(1, 1), 5.0f, 20);
-                Wave waveB = ConstructWave(float2(1, 0.2f), 13.0f, 12);
+                Wave waveA = ConstructWave(float2(1, 1),20, 0.8f);
+                //Wave waveB = ConstructWave(float2(1, 0.2f), 6.0f, 8);
 
                 float3 gridPoint = v.vertex.xyz;
                 float3 tangent = float3(1, 0, 0);
@@ -105,7 +109,7 @@ Shader "Custom/Water_Shader"
                 float3 p = gridPoint;
 
                 p += GerstnerWaves(waveA, gridPoint, tangent, binormal);
-                p += GerstnerWaves(waveB, gridPoint, tangent, binormal);
+                //p += GerstnerWaves(waveB, gridPoint, tangent, binormal);
 
                 float3 normal = normalize(cross(binormal, tangent));
 
@@ -120,6 +124,12 @@ Shader "Custom/Water_Shader"
             fixed4 frag(v2f i) : SV_Target
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
+                float4 OceanMap = tex2D(_OceanMap, i.uv);
+
+                col = lerp(float4(0, 0, 0, 0), col, OceanMap.a > 0.1f);
+                
+                clip(col.a - 0.5f);
+
                 return col;
             }
             ENDCG
