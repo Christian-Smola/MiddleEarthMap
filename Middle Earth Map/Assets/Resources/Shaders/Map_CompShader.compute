@@ -93,6 +93,21 @@ void CSMain(uint3 id : SV_DispatchThreadID)
 		float4 Outline = _OutlineMap.SampleLevel(sampler_ProvinceMaps_RepeatPoint, float2(uv * 0.5f + 0.5f), 0);
 		OutputTex = lerp(Terrain, Outline, Outline.a > 0.1f);
 	}
+	else if (_OutputValue == 4)
+	{
+		for (int x = 0; x < _ShadingDataCount; x++)
+		{
+			if (_ShadingData[x].Selected == 0)
+				continue;
+
+			float4 Province = _ProvinceMaps.SampleLevel(sampler_ProvinceMaps_RepeatPoint, float3(uv * 0.5f + 0.5f, _ShadingData[x].ProvinceMapIndex), 0);
+			float4 Outline = _OutlineMap.SampleLevel(sampler_ProvinceMaps_RepeatPoint, float2(uv * 0.5f + 0.5f), 0);
+
+			float4 col = ColorSwap(Province, _ShadingData[x].ProvinceColor, float4(0, 0, 0, 0));
+
+			OutputTex = lerp(float4(0, 0, 0, 0), float4(1, 1, 0, 1), Outline.a * col.a > 0.1f);
+		}
+	}
 
 	Result[id.xy] = OutputTex;
 }

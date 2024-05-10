@@ -17,7 +17,7 @@ Shader "Custom/Map_Shader"
     }
     SubShader
     {
-        Tags { "RenderType" = "Opaque" "TerrainCompatible" = "True"}
+        Tags { "RenderType" = "Transparent" "TerrainCompatible" = "True"}
         Blend SrcAlpha OneMinusSrcAlpha
         Cull Off
         LOD 100
