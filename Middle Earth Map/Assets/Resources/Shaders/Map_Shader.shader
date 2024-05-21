@@ -17,7 +17,7 @@ Shader "Custom/Map_Shader"
     }
     SubShader
     {
-        Tags { "RenderType" = "Transparent" "TerrainCompatible" = "True"}
+        Tags { "RenderType" = "Opaque" "TerrainCompatible" = "True"}
         Blend SrcAlpha OneMinusSrcAlpha
         Cull Off
         LOD 100
@@ -140,13 +140,9 @@ Shader "Custom/Map_Shader"
                 float4 OceanCol = tex2D(_OceanCol, i.uv);
 
                 float3 SunDir = _WorldSpaceLightPos0.xyz;
-                float3 shading = saturate(saturate(dot(Normal, SunDir) + 0.05)) * 5;
+                float3 shading = saturate(saturate(dot(Normal, SunDir) + 0.05)) * 1.5;
 
-                Terrain = lerp(Terrain, float4(0, 0, 0, 0), Ocean.a > 0.1);
-
-                clip(Terrain.a - 0.5f);
-
-                return Terrain;
+                return float4(Terrain.xyz * shading, 1);
             }
 
             ENDCG
@@ -172,11 +168,11 @@ Shader "Custom/Map_Shader"
                 float4 vertex : SV_POSITION;
             };
 
-            sampler2D _NationMap;
-            float4 _NationMap_ST;
-
             sampler2D _ProvinceMap;
             float4 _ProvinceMap_ST;
+
+            sampler2D _NationMap;
+            float4 _NationMap_ST;
 
             v2f vert (appdata v)
             {

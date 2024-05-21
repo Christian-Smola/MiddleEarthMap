@@ -50,6 +50,11 @@ float4 ColorSwap(float4 Input, float3 From, float3 To)
 	return lerp(Output, float4(0, 0, 0, 0), Input.a < 0.1f);
 }
 
+float3 QuickDiffTest(float3 InputCol, float3 ProvinceCol)
+{
+	return float3(abs(InputCol.r - ProvinceCol.r), abs(InputCol.g - ProvinceCol.g), abs(InputCol.b - ProvinceCol.b));
+}
+
 [numthreads(8, 8, 1)]
 void CSMain(uint3 id : SV_DispatchThreadID)
 {
@@ -83,6 +88,7 @@ void CSMain(uint3 id : SV_DispatchThreadID)
 			float4 NewTex = _ProvinceMaps.SampleLevel(sampler_ProvinceMaps_RepeatPoint, float3(uv * 0.5f + 0.5f, _ShadingData[x].ProvinceMapIndex), 0);
 
 			float4 col = ColorSwap(NewTex, _ShadingData[x].ProvinceColor, _ShadingData[x].NationColor);
+			//float4 col = float4(QuickDiffTest(NewTex, _ShadingData[x].ProvinceColor), 1);
 
 			OutputTex = lerp(col, OutputTex, OutputTex.a > 0.5f);
 		}

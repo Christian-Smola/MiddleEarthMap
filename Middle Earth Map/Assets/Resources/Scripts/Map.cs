@@ -37,7 +37,7 @@ public class Map : MonoBehaviour
             public class Province
             {
                 public Color32 color;
-                public int Selected;
+                public int Selected = 0;
                 public Nation Owner;
 
                 public static void PopulateProvinceLists()
@@ -52,12 +52,12 @@ public class Map : MonoBehaviour
                     area.ProvinceList.Add(new Province(new Color32(255, 0, 255, 255), Nation.Find("Isengard")));
                     area.ProvinceList.Add(new Province(new Color32(0, 255, 255, 255), Nation.Find("Isengard")));
 
-                    area.ProvinceList.Add(new Province(new Color32(102, 0, 0, 255), Nation.Find("Rohan")));
-                    area.ProvinceList.Add(new Province(new Color32(0, 102, 0, 255), Nation.Find("Rohan")));
-                    area.ProvinceList.Add(new Province(new Color32(0, 0, 102, 255), Nation.Find("Rohan")));
+                    area.ProvinceList.Add(new Province(new Color32(102, 0, 0, 255), Nation.Find("Fangorn")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 102, 0, 255), Nation.Find("Fangorn")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 0, 102, 255), Nation.Find("Fangorn")));
 
-                    area.ProvinceList.Add(new Province(new Color32(102, 102, 0, 255), Nation.Find("Fangorn")));
-                    area.ProvinceList.Add(new Province(new Color32(102, 0, 102, 255), Nation.Find("Fangorn")));
+                    area.ProvinceList.Add(new Province(new Color32(102, 102, 0, 255), Nation.Find("Rohan")));
+                    area.ProvinceList.Add(new Province(new Color32(102, 0, 102, 255), Nation.Find("Rohan")));
                 }
 
 
@@ -178,7 +178,7 @@ public class Map : MonoBehaviour
 
         Texture2DArray AreaTextureArray = ConvertTextureArray(textures);
 
-        SetInitialShaderProperties(ProvinceTextureArray, AreaTextureArray);
+        SetInitialShaderProperties(Target, ProvinceTextureArray, AreaTextureArray);
 
         Texture2D[] textures2 = RetrieveOutputTextures();
 
@@ -209,7 +209,7 @@ public class Map : MonoBehaviour
         }
     }
 
-    private void SetInitialShaderProperties(Texture2DArray ProvinceTexs, Texture2DArray AreaTexs)
+    private void SetInitialShaderProperties(RenderTexture Target, Texture2DArray ProvinceTexs, Texture2DArray AreaTexs)
     {
         int Count = CreateNationMap();
 
