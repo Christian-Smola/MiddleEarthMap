@@ -49,15 +49,54 @@ public class Map : MonoBehaviour
                     area.ProvinceList.Add(new Province(new Color32(0, 0, 255, 255), Nation.Find("Isengard")));
 
                     area.ProvinceList.Add(new Province(new Color32(255, 255, 0, 255), Nation.Find("Isengard")));
-                    area.ProvinceList.Add(new Province(new Color32(255, 0, 255, 255), Nation.Find("Isengard")));
-                    area.ProvinceList.Add(new Province(new Color32(0, 255, 255, 255), Nation.Find("Isengard")));
+                    area.ProvinceList.Add(new Province(new Color32(255, 0, 255, 255), Nation.Find("Rohan")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 255, 255, 255), Nation.Find("Rohan")));
+
+                    area.ProvinceList.Add(new Province(new Color32(102, 0, 0, 255), Nation.Find("Rohan")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 102, 0, 255), Nation.Find("Rohan")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 0, 102, 255), Nation.Find("Rohan")));
+
+                    area.ProvinceList.Add(new Province(new Color32(102, 102, 0, 255), Nation.Find("Rohan")));
+                    area.ProvinceList.Add(new Province(new Color32(102, 0, 102, 255), Nation.Find("Isengard")));
+
+                    area = Area.Find("Fangorn");
+
+                    area.ProvinceList.Add(new Province(new Color32(255, 0, 0, 255), Nation.Find("Fangorn")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 255, 0, 255), Nation.Find("Fangorn")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 0, 255, 255), Nation.Find("Fangorn")));
+
+                    area.ProvinceList.Add(new Province(new Color32(255, 255, 0, 255), Nation.Find("Fangorn")));
+                    area.ProvinceList.Add(new Province(new Color32(255, 0, 255, 255), Nation.Find("Fangorn")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 255, 255, 255), Nation.Find("Fangorn")));
 
                     area.ProvinceList.Add(new Province(new Color32(102, 0, 0, 255), Nation.Find("Fangorn")));
                     area.ProvinceList.Add(new Province(new Color32(0, 102, 0, 255), Nation.Find("Fangorn")));
                     area.ProvinceList.Add(new Province(new Color32(0, 0, 102, 255), Nation.Find("Fangorn")));
 
-                    area.ProvinceList.Add(new Province(new Color32(102, 102, 0, 255), Nation.Find("Rohan")));
-                    area.ProvinceList.Add(new Province(new Color32(102, 0, 102, 255), Nation.Find("Rohan")));
+                    area.ProvinceList.Add(new Province(new Color32(102, 102, 0, 255), Nation.Find("Fangorn")));
+                    area.ProvinceList.Add(new Province(new Color32(102, 0, 102, 255), Nation.Find("Fangorn")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 102, 102, 255), Nation.Find("Fangorn")));
+
+                    area.ProvinceList.Add(new Province(new Color32(255, 102, 0, 255), Nation.Find("Fangorn")));
+                    area.ProvinceList.Add(new Province(new Color32(102, 255, 0, 255), Nation.Find("Fangorn")));
+                    area.ProvinceList.Add(new Province(new Color32(102, 0, 255, 255), Nation.Find("Fangorn")));
+
+                    area = Area.Find("Westemnet");
+
+                    area.ProvinceList.Add(new Province(new Color32(255, 0, 0, 255), Nation.Find("Rohan")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 255, 0, 255), Nation.Find("Rohan")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 0, 255, 255), Nation.Find("Rohan")));
+
+                    area.ProvinceList.Add(new Province(new Color32(255, 255, 0, 255), Nation.Find("Rohan")));
+                    area.ProvinceList.Add(new Province(new Color32(255, 0, 255, 255), Nation.Find("Rohan")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 255, 255, 255), Nation.Find("Rohan")));
+
+                    area.ProvinceList.Add(new Province(new Color32(102, 0, 0, 255), Nation.Find("Rohan")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 102, 0, 255), Nation.Find("Rohan")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 0, 102, 255), Nation.Find("Rohan")));
+
+                    area.ProvinceList.Add(new Province(new Color32(255, 102, 0, 255), Nation.Find("Rohan")));
+                    area.ProvinceList.Add(new Province(new Color32(102, 0, 255, 255), Nation.Find("Rohan")));
                 }
 
 
@@ -73,8 +112,8 @@ public class Map : MonoBehaviour
                 Region region = Region.Find("Rhovanion");
 
                 region.AreaList.Add(new Area("Gap of Rohan", new Color32(255, 0, 0, 255)));
-                //region.AreaList.Add(new Area("Fangorn", new Color32(0, 255, 0, 255)));
-                //region.AreaList.Add(new Area("Westemnet", new Color32(0, 0, 255, 255)));
+                region.AreaList.Add(new Area("Fangorn", new Color32(0, 255, 0, 255)));
+                region.AreaList.Add(new Area("Westemnet", new Color32(0, 0, 255, 255)));
 
                 Province.PopulateProvinceLists();
             }
@@ -118,7 +157,7 @@ public class Map : MonoBehaviour
         {
             NationList.Add(new Nation("Isengard", new Color32(255, 255, 255, 255)));
             NationList.Add(new Nation("Fangorn", new Color32(0, 151, 0, 255)));
-            NationList.Add(new Nation("Rohan", new Color32(255, 0, 0, 255)));
+            NationList.Add(new Nation("Rohan", new Color32(153, 102, 0, 255)));
         }
 
         public static Nation Find(string name)

@@ -34,7 +34,7 @@ public class FreeCam : MonoBehaviour
             CursorStartPosition = Input.mousePosition;
         }
 
-        if ((Input.GetAxis("Mouse ScrollWheel") > 0 && Camera.main.gameObject.transform.position.y > -5) || Input.GetAxis("Mouse ScrollWheel") < 0 && Camera.main.gameObject.transform.position.y < 300)
+        if ((Input.GetAxis("Mouse ScrollWheel") > 0 && Camera.main.gameObject.transform.position.y > -5) || Input.GetAxis("Mouse ScrollWheel") < 0 && Camera.main.gameObject.transform.position.y < 1500)
             Camera.main.gameObject.transform.localPosition += (Camera.main.gameObject.transform.forward * Input.GetAxis("Mouse ScrollWheel") * 250f);
     }
 }
