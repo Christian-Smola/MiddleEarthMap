@@ -29,15 +29,7 @@ public class TextRendering
                 public Point(int x, int y, bool onCurve) => (X, Y, OnCurve) = (x, y, onCurve);
             }
 
-            public GlyphData(int[] x, int[] y, int[] EndPoints)
-            {
-                Points = new Point[x.Length];
-
-                for (int i = 0; i < x.Length; i++)
-                    Points[i] = new Point(x[i], y[i]);
-
-                ContourEndIndices = EndPoints;
-            }
+            public GlyphData(Point[] points, int[] EndPoints) => (Points, ContourEndIndices) = (points, EndPoints);
         }
 
         public FontReader(string Path)
@@ -112,41 +104,53 @@ public class TextRendering
                 }
             }
 
-            int[] xCoords = ReadCoordinates(reader, allFlags, true);
-            int[] yCoords = ReadCoordinates(reader, allFlags, false);
-            return new GlyphData(xCoords, yCoords, contourEndIndices);
+            GlyphData.Point[] points = new GlyphData.Point[numPoints];
+
+            ReadCoordinates(points, reader, allFlags, true);
+            ReadCoordinates(points, reader, allFlags, false);
+
+            return new GlyphData(points, contourEndIndices);
         }
 
-        static int[] ReadCoordinates(FontReader reader, byte[] allFlags, bool readingX)
+        static void ReadCoordinates(in GlyphData.Point[] points, FontReader reader, byte[] allFlags, bool readingX)
         {
+            int min = int.MaxValue;
+            int max = int.MinValue;
+
             int offsetSizeFlagBit = readingX ? 1 : 2;
             int offsetSignOrSkipBit = readingX ? 4 : 5;
-            int[] coordinates = new int[allFlags.Length];
 
-            for (int i = 0; i < coordinates.Length; i++)
+            int coordVal = 0;
+
+            for (int i = 0; i < points.Count(); i++)
             {
-                coordinates[i] = coordinates[Math.Max(0, i - 1)];
-                byte flag = allFlags[i];
-                bool onCurve = FlagBitIsSet(flag, 0);
+                byte currFlag = allFlags[i];
 
-                if (FlagBitIsSet(flag, offsetSizeFlagBit))
+                if (FlagBitIsSet(currFlag, offsetSizeFlagBit))
                 {
-                    byte offset = reader.ReadByte();
-                    int sign = FlagBitIsSet(flag, offsetSignOrSkipBit) ? 1 : -1;
-                    coordinates[i] += offset * sign;
+                    int coordOffset = reader.ReadByte();
+                    bool positiveOffset = FlagBitIsSet(currFlag, offsetSignOrSkipBit);
+                    coordVal += positiveOffset ? coordOffset : -coordOffset;
                 }
-                else if (!FlagBitIsSet(flag, offsetSignOrSkipBit))
+                else if (!FlagBitIsSet(currFlag, offsetSignOrSkipBit))
                 {
-                    coordinates[i] += reader.ReadUInt16();
+                    coordVal += reader.ReadInt16();
                 }
+
+                if (readingX) points[i].X = coordVal;
+                else points[i].Y = coordVal;
+                points[i].OnCurve = FlagBitIsSet(currFlag, 0);
+
+                min = Math.Min(min, coordVal);
+                max = Math.Max(max, coordVal);
             }
-
-            return coordinates;
         }
 
         public void Dispose() { }
 
         public byte ReadByte() => reader.ReadByte();
+
+        public Int32 ReadInt16() => (Int16)ReadUInt16();
 
         public void SkipBytes(int num) => reader.BaseStream.Seek(num, SeekOrigin.Current);
 
