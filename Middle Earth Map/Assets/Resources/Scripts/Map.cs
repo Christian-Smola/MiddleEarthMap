@@ -252,7 +252,7 @@ public class Map : MonoBehaviour
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
-            TextRendering.ParseFont(Environment.CurrentDirectory + @"\Assets\Resources\Fonts\times.ttf");
+            TextRendering.ParseFont(Environment.CurrentDirectory + @"\Assets\Resources\Fonts\JetBrainsMono-Bold.ttf");
     }
 
     private void OnDisable()
