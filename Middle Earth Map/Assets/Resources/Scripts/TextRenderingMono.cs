@@ -5,10 +5,17 @@ using UnityEngine;
 
 public class TextRenderingMono : MonoBehaviour
 {
-    // Update is called once per frame
-    void Update()
+    TextRendering.FontReader.GlyphData glyph = null;
+
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-            TextRendering.ParseFont(Environment.CurrentDirectory + @"\Assets\Resources\Fonts\JetBrainsMono-Bold.ttf");
+        if (glyph == null)
+            glyph = TextRendering.ParseFont(Environment.CurrentDirectory + @"\Assets\Resources\Fonts\JetBrainsMono-Bold.ttf");
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (glyph != null)
+            TextRendering.FontReader.GlyphData.GlyphDrawTest(glyph);
     }
 }

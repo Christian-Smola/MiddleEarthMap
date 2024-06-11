@@ -24,9 +24,34 @@ public class TextRendering
                 public int Y;
                 public bool OnCurve;
 
+                public Vector3 ToVec3()
+                {
+                    return new Vector3(X, Y, 10);
+                }
+
                 public Point(int x, int y) : this() => (X, Y) = (x, y);
 
                 public Point(int x, int y, bool onCurve) => (X, Y, OnCurve) = (x, y, onCurve);
+            }
+
+            public static void GlyphDrawTest(GlyphData glyph)
+            {
+                int contourStartIndex = 0;
+
+                foreach (int contourEndIndex in glyph.ContourEndIndices)
+                {
+                    int numPointsInContour = contourEndIndex - contourStartIndex + 1;
+
+                    Span<Point> points = glyph.Points.AsSpan(contourStartIndex, numPointsInContour);
+
+                    for (int i = 0; i < points.Length; i++)
+                        Gizmos.DrawLine(points[i].ToVec3(), points[(i + 1) % points.Length].ToVec3());
+
+                    contourStartIndex = contourEndIndex + 1;
+                }
+
+                //for (int i = 0; i < glyph.Points.Length; i++)
+                //    Gizmos.DrawPoint(glyph.Points[i]);
             }
 
             public GlyphData(Point[] points, int[] EndPoints) => (Points, ContourEndIndices) = (points, EndPoints);
@@ -159,7 +184,7 @@ public class TextRendering
         static bool FlagBitIsSet(byte flag, int index) => ((flag >> index) & 1) == 1;
     }
 
-    public static void ParseFont(string Path)
+    public static FontReader.GlyphData ParseFont(string Path)
     {
         using FontReader reader = new FontReader(Path);
 
@@ -184,10 +209,14 @@ public class TextRendering
 
         Debug.Log("Glyph 0:");
 
-        for (int i = 0; i < glyph.ContourEndIndices.Count(); i++)
-            Debug.Log(" Contour End Index " + i + ": " + glyph.ContourEndIndices[i]);
+        //FontReader.GlyphData.GlyphDrawTest(glyph);
 
-        for (int i = 0; i < glyph.Points.Count(); i++)
-            Debug.Log(" Point " + i + ": (" + glyph.Points[i].X + ", " + glyph.Points[i].Y + ")"); 
+        //for (int i = 0; i < glyph.ContourEndIndices.Count(); i++)
+        //    Debug.Log(" Contour End Index " + i + ": " + glyph.ContourEndIndices[i]);
+
+        //for (int i = 0; i < glyph.Points.Count(); i++)
+        //    Debug.Log(" Point " + i + ": (" + glyph.Points[i].X + ", " + glyph.Points[i].Y + ")"); 
+
+        return glyph;
     }
 }
