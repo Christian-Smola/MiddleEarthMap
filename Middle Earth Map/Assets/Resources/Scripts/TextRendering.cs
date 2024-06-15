@@ -8,6 +8,8 @@ using UnityEngine.TextCore;
 
 public class TextRendering
 {
+    private static Dictionary<string, uint> tableLocationLookup = new Dictionary<string, uint>();
+
     public class FontReader : IDisposable
     {
         private readonly Stream stream;
@@ -181,6 +183,8 @@ public class TextRendering
 
         public void GoTo(uint OffsetFromOrigin) => reader.BaseStream.Seek(OffsetFromOrigin, SeekOrigin.Begin);
 
+        public void GoTo(long OffserFromOrigin) => reader.BaseStream.Seek(OffserFromOrigin, SeekOrigin.Begin);
+
         static bool FlagBitIsSet(byte flag, int index) => ((flag >> index) & 1) == 1;
     }
 
@@ -192,8 +196,6 @@ public class TextRendering
         UInt16 numTables = reader.ReadUInt16();
         reader.SkipBytes(6);
 
-        Dictionary<string, uint> tableLocationLookup = new Dictionary<string, uint>();
-
         for (int i = 0; i < numTables; i++)
         {
             string tag = reader.ReadTag();
@@ -204,19 +206,43 @@ public class TextRendering
             tableLocationLookup.Add(tag, offset);
         }
 
-        reader.GoTo(tableLocationLookup["glyf"]);
-        FontReader.GlyphData glyph = FontReader.ReadSimpleGlyph(reader);
+        uint[] glyphLocations = GetAllGlyphLocations(reader);
 
-        Debug.Log("Glyph 0:");
+        FontReader.GlyphData[] glyphs = new FontReader.GlyphData[glyphLocations.Length];
 
-        //FontReader.GlyphData.GlyphDrawTest(glyph);
+        for (int i = 0; i < 2; i++)
+        {
+            reader.GoTo(glyphLocations[i]);
+            glyphs[i] = FontReader.ReadSimpleGlyph(reader);
+        }
 
-        //for (int i = 0; i < glyph.ContourEndIndices.Count(); i++)
-        //    Debug.Log(" Contour End Index " + i + ": " + glyph.ContourEndIndices[i]);
+        return glyphs[1];
+    }
 
-        //for (int i = 0; i < glyph.Points.Count(); i++)
-        //    Debug.Log(" Point " + i + ": (" + glyph.Points[i].X + ", " + glyph.Points[i].Y + ")"); 
+    private static uint[] GetAllGlyphLocations(FontReader reader)
+    {
+        reader.GoTo(tableLocationLookup["maxp"] + 4);
 
-        return glyph;
+        int numOfGlyphs = reader.ReadUInt16();
+
+        reader.GoTo(tableLocationLookup["head"]);
+
+        reader.SkipBytes(50);
+
+        bool isTwoByteEntry = reader.ReadInt16() == 0;
+
+        uint locationTableStart = tableLocationLookup["loca"];
+        uint glyphTableStart = tableLocationLookup["glyf"];
+
+        uint[] allGlyphLocations = new uint[numOfGlyphs];
+
+        for (int i = 0; i < numOfGlyphs; i++)
+        {
+            reader.GoTo(locationTableStart + i * (isTwoByteEntry ? 2 : 4));
+            uint glyphDataOffset = isTwoByteEntry ? reader.ReadUInt16() * 2u : reader.ReadUInt32();
+            allGlyphLocations[i] = glyphTableStart + glyphDataOffset;
+        }
+
+        return allGlyphLocations;
     }
 }
