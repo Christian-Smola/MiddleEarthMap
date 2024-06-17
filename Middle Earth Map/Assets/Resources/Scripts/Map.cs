@@ -244,6 +244,7 @@ public class Map : MonoBehaviour
                 region.AreaList.Add(new Area("Lossarnach", new Color32(255, 0, 0, 255)));
                 region.AreaList.Add(new Area("Anorien", new Color32(0, 255, 0, 255)));
                 region.AreaList.Add(new Area("Lebennin", new Color32(0, 0, 255, 255)));
+                region.AreaList.Add(new Area("Belfalas", new Color32(0, 0, 255, 255)));
 
                 Province.PopulateProvinceLists();
             }
