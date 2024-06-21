@@ -343,15 +343,17 @@ public class Map : MonoBehaviour
     {
         public string Name;
         public Color32 color;
+        public Vector2 TagStartPoint;
+        public Vector2 TagEndPoint;
 
         public static List<Nation> NationList = new List<Nation>();
 
         public static void PopulateNationList()
         {
-            NationList.Add(new Nation("Isengard", new Color32(255, 255, 255, 255)));
-            NationList.Add(new Nation("Gondor", new Color32(153, 153, 153, 255)));
-            NationList.Add(new Nation("Fangorn", new Color32(0, 151, 0, 255)));
-            NationList.Add(new Nation("Rohan", new Color32(153, 102, 0, 255)));
+            NationList.Add(new Nation("Isengard", new Color32(255, 255, 255, 255), new Vector2(1225, 1065), new Vector2(1290, 1160)));
+            NationList.Add(new Nation("Gondor", new Color32(153, 153, 153, 255), new Vector2(1400, 835), new Vector2(1760, 735)));
+            NationList.Add(new Nation("Fangorn", new Color32(0, 151, 0, 255), new Vector2(1340, 1115), new Vector2(1410, 1300)));
+            NationList.Add(new Nation("Rohan", new Color32(153, 102, 0, 255), new Vector2(1356.5f, 990), new Vector2(1600, 1185)));
         }
 
         public static Nation Find(string name)
@@ -360,6 +362,8 @@ public class Map : MonoBehaviour
         }
 
         public Nation(string name, Color32 col) => (Name, color) = (name, col);
+
+        public Nation(string name, Color32 col, Vector2 start, Vector2 end) => (Name, color, TagStartPoint, TagEndPoint) = (name, col, start, end);
     }
 
     struct NationShading
@@ -368,6 +372,8 @@ public class Map : MonoBehaviour
         public int Selected;
         public Vector3 ProvinceColor;
         public Vector3 NationColor;
+        public Vector2 TagStartPoint;
+        public Vector2 TagEndPoint;
     }
 
     public void Start()
@@ -381,6 +387,12 @@ public class Map : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
             TextRendering.ParseFont(Environment.CurrentDirectory + @"\Assets\Resources\Fonts\JetBrainsMono-Bold.ttf");
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit);
+            GetPixelCoords(hit);
+        }    
     }
 
     private void OnDisable()
@@ -473,10 +485,12 @@ public class Map : MonoBehaviour
                         ProvinceMapIndex = area.IndexInArray,
                         Selected = province.Selected,
                         NationColor = new Vector3(province.Owner.color.r / 255f, province.Owner.color.g / 255f, province.Owner.color.b / 255f),
-                        ProvinceColor = new Vector3(province.color.r / 255f, province.color.g / 255f, province.color.b / 255f)
+                        ProvinceColor = new Vector3(province.color.r / 255f, province.color.g / 255f, province.color.b / 255f),
+                        TagStartPoint = province.Owner.TagStartPoint,
+                        TagEndPoint = province.Owner.TagEndPoint
                     });
 
-        ShadingBuffer = new ComputeBuffer(NationList.Count, 32);
+        ShadingBuffer = new ComputeBuffer(NationList.Count, 48);
         ShadingBuffer.SetData(NationList);
 
         return NationList.Count;
@@ -512,5 +526,22 @@ public class Map : MonoBehaviour
         MapMaterial.SetTexture("_AreaMap", textures[1]);
         MapMaterial.SetTexture("_NationMap", textures[2]);
         MapMaterial.SetTexture("_Terrain", textures[3]);
+    }
+
+    private void GetPixelCoords(RaycastHit hit)
+    {
+        hit.transform.TryGetComponent<Map>(out Map map);
+
+        if (map != null)
+        {
+            Texture2D texture = map.MapMaterial.mainTexture as Texture2D;
+
+            Vector2 pixelCoords = hit.textureCoord;
+
+            pixelCoords.x *= texture.width;
+            pixelCoords.y *= texture.height;
+
+            Debug.Log(pixelCoords);
+        }
     }
 }

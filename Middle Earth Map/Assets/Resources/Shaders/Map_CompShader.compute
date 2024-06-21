@@ -22,6 +22,8 @@ struct NationShading
 	int Selected;
 	float3 ProvinceColor;
 	float3 NationColor;
+    float2 StartPoint;
+    float2 EndPoint;
 };
 
 StructuredBuffer<NationShading> _ShadingData;
@@ -109,7 +111,7 @@ void CSMain(uint3 id : SV_DispatchThreadID)
 			float4 Province = _ProvinceMaps.SampleLevel(sampler_ProvinceMaps_RepeatPoint, float3(uv * 0.5f + 0.5f, _ShadingData[x].ProvinceMapIndex), 0);
 			float4 Outline = _OutlineMap.SampleLevel(sampler_ProvinceMaps_RepeatPoint, float2(uv * 0.5f + 0.5f), 0);
 
-			float4 col = ColorSwap(Province, _ShadingData[x].ProvinceColor, float4(0, 0, 0, 0));
+			float4 col = ColorSwap(Province, _ShadingData[x].ProvinceColor, float3(0, 0, 0));
 
 			OutputTex = lerp(float4(0, 0, 0, 0), float4(1, 1, 0, 1), Outline.a * col.a > 0.1f);
 		}
