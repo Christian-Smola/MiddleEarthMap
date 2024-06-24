@@ -24,7 +24,7 @@ public class TextRendering
             {
                 public int X;
                 public int Y;
-                public bool OnCurve;
+                public int OnCurve;
 
                 public Vector3 ToVec3()
                 {
@@ -33,7 +33,7 @@ public class TextRendering
 
                 public Point(int x, int y) : this() => (X, Y) = (x, y);
 
-                public Point(int x, int y, bool onCurve) => (X, Y, OnCurve) = (x, y, onCurve);
+                public Point(int x, int y, int onCurve) => (X, Y, OnCurve) = (x, y, onCurve);
             }
 
             public static void GlyphDrawTest(GlyphData glyph)
@@ -166,7 +166,7 @@ public class TextRendering
 
                 if (readingX) points[i].X = coordVal;
                 else points[i].Y = coordVal;
-                points[i].OnCurve = FlagBitIsSet(currFlag, 0);
+                points[i].OnCurve = FlagBitIsSet(currFlag, 0) ? 1 : 0;
 
                 min = Math.Min(min, coordVal);
                 max = Math.Max(max, coordVal);
