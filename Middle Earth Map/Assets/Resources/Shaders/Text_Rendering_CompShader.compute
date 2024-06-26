@@ -4,9 +4,14 @@ RWTexture2D<float4> Result;
 
 struct Point
 {
-    int x;
-    int y;
+    float x;
+    float y;
     int OnCurve;
+    
+    float2 ToFloat2()
+    {
+        return float2(x, y);
+    }
 };
 
 StructuredBuffer<Point> _Points;
@@ -15,10 +20,50 @@ int _PointsCount;
 StructuredBuffer<int> ContourEndIndices;
 int _IndicesCount;
 
+float LineSegmentSDF(in float2 p, in float2 a, in float2 b)
+{
+    float2 pa = p - a, ba = b - a;
+    float h = clamp(dot(pa, ba) / dot(ba, ba), 0.0, 1.0);
+    return length(pa - ba * h);
+}
+
+
+float4 DrawGlyph(float2 uv)
+{
+    float4 Output = float4(0, 0, 0, 0);
+    
+    int StartIndex = 0;
+    
+    for (int i = 0; i < _IndicesCount; i++)
+    {
+        int NumOfPoints = ContourEndIndices[i] - StartIndex + 1;
+        
+        for (int j = 0; j < NumOfPoints; j++)
+        {
+            int index = StartIndex + j;
+            int length = StartIndex - NumOfPoints;
+            
+            float d = LineSegmentSDF(uv, float2(0.3, 0), float2(-0.3, 0));
+            
+            //float d = LineSegmentSDF(uv, _Points[index].ToFloat2(), _Points[(index + 1) % length].ToFloat2());
+            Output = lerp(Output, float4(1, 0, 0, 1), 1 - smoothstep(0, 0.02, abs(d)));
+        }
+        
+        StartIndex = ContourEndIndices[i] + 1;
+    }
+    
+    return Output;
+}
+
 [numthreads(8,8,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {
-    // TODO: insert actual code here!
+    uint width, height;
+    Result.GetDimensions(width, height);
+    
+    float2 uv = id.xy / float2(width, height) * 2 - 1;
+    
+    float4 Glyph = DrawGlyph(uv);
 
-    Result[id.xy] = float4(id.x & id.y, (id.x & 15)/15.0, (id.y & 15)/15.0, 0.0);
+    Result[id.xy] = Glyph;
 }

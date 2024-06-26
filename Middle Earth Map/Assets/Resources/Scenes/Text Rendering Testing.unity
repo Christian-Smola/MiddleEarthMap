@@ -318,6 +318,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d49c2312818396a4d96513b3906258d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CompShader: {fileID: 7200000, guid: e09438e02f3ba404abcb31e9cf7c3792, type: 3}
+  TextRenderingMat: {fileID: 2100000, guid: f5aad06fae49bb14393cd637628afbc3, type: 2}
 --- !u!1 &1367637565
 GameObject:
   m_ObjectHideFlags: 0

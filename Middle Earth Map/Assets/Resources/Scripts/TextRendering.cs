@@ -10,6 +10,8 @@ public class TextRendering
 {
     private static Dictionary<string, uint> tableLocationLookup = new Dictionary<string, uint>();
 
+    public static List<FontReader.GlyphData> Glyphs = new List<FontReader.GlyphData>();
+
     public class FontReader : IDisposable
     {
         private readonly Stream stream;
@@ -188,7 +190,7 @@ public class TextRendering
         static bool FlagBitIsSet(byte flag, int index) => ((flag >> index) & 1) == 1;
     }
 
-    public static FontReader.GlyphData ParseFont(string Path)
+    public static void ParseFont(string Path)
     {
         using FontReader reader = new FontReader(Path);
 
@@ -216,7 +218,7 @@ public class TextRendering
             glyphs[i] = FontReader.ReadSimpleGlyph(reader);
         }
 
-        return glyphs[1];
+        Glyphs = glyphs.ToList();
     }
 
     private static uint[] GetAllGlyphLocations(FontReader reader)
