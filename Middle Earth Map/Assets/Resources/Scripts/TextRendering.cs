@@ -24,8 +24,8 @@ public class TextRendering
 
             public struct Point
             {
-                public int X;
-                public int Y;
+                public float X;
+                public float Y;
                 public int OnCurve;
 
                 public Vector3 ToVec3()
@@ -48,14 +48,31 @@ public class TextRendering
 
                     Span<Point> points = glyph.Points.AsSpan(contourStartIndex, numPointsInContour);
 
-                    for (int i = 0; i < points.Length; i++)
-                        Gizmos.DrawLine(points[i].ToVec3(), points[(i + 1) % points.Length].ToVec3());
-
+                    for (int i = 0; i < points.Length; i += 2)
+                    {
+                        Point p1 = points[i];
+                        Point p2 = points[(i + 1) % points.Length];
+                        Point p3 = points[(i + 2) % points.Length];
+                        DrawBezier(p1, p2, p3, 30)
+                    }
                     contourStartIndex = contourEndIndex + 1;
                 }
 
                 //for (int i = 0; i < glyph.Points.Length; i++)
                 //    Gizmos.DrawPoint(glyph.Points[i]);
+            }
+
+            public static void DrawBezier(Vector2 p1, Vector2 p2, Vector2 p3, int resolution)
+            {
+                Vector2 previousPointOnCurve = p1;
+
+                for (int i = 0; i < resolution; i++)
+                {
+                    float t = (i + 1f) / resolution;
+                    Vector2 nextPointOnCurve = BezierInterpolation(p1, p2, p3, t);
+                    Gizmos.DrawLine(previousPointOnCurve, nextPointOnCurve);
+                    previousPointOnCurve = nextPointOnCurve;
+                }
             }
 
             public GlyphData(Point[] points, int[] EndPoints) => (Points, ContourEndIndices) = (points, EndPoints);
@@ -247,4 +264,14 @@ public class TextRendering
 
         return allGlyphLocations;
     }
+
+    public Vector2 BezierInterpolation(Vector2 p1, Vector2 p2, Vector2 p3, float t)
+    {
+        Vector2 intermediateA = LinearInterpolation(p1, p2, t);
+        Vector2 intermediateB = LinearInterpolation(p2, p3, t);
+
+        return LinearInterpolation(intermediateA, intermediateB);
+    }
+
+    public Vector2 LinearInterpolation(Vector2 start, Vector2 end, float t) => start + (end - start) * t;
 }

@@ -10,7 +10,7 @@ struct Point
     
     float2 ToFloat2()
     {
-        return float2(x, y);
+        return float2(x / 1000.0f, y / 1000.0f);
     }
 };
 
@@ -41,11 +41,8 @@ float4 DrawGlyph(float2 uv)
         for (int j = 0; j < NumOfPoints; j++)
         {
             int index = StartIndex + j;
-            int length = StartIndex - NumOfPoints;
             
-            float d = LineSegmentSDF(uv, float2(0.3, 0), float2(-0.3, 0));
-            
-            //float d = LineSegmentSDF(uv, _Points[index].ToFloat2(), _Points[(index + 1) % length].ToFloat2());
+            float d = LineSegmentSDF(uv, _Points[index].ToFloat2(), _Points[(index + 1) % NumOfPoints].ToFloat2());
             Output = lerp(Output, float4(1, 0, 0, 1), 1 - smoothstep(0, 0.02, abs(d)));
         }
         

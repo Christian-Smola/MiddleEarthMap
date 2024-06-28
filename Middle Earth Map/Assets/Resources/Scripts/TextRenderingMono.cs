@@ -29,11 +29,11 @@ public class TextRenderingMono : MonoBehaviour
         ShaderSetup();
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    if (TextRendering.Glyphs.Count > 0)
-    //        TextRendering.FontReader.GlyphData.GlyphDrawTest(glyph);
-    //}
+    private void OnDrawGizmos()
+    {
+        if (TextRendering.Glyphs.Count > 0)
+            TextRendering.FontReader.GlyphData.GlyphDrawTest(glyph);
+    }
 
     private void PopulateGlyphBuffers()
     {
