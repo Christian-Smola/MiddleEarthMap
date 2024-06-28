@@ -247,6 +247,20 @@ public class Map : MonoBehaviour
                     area.ProvinceList.Add(new Province(new Color32(102, 0, 255, 255), Nation.Find("Gondor")));
                     area.ProvinceList.Add(new Province(new Color32(0, 102, 255, 255), Nation.Find("Gondor")));
 
+                    area = Area.Find("East Anfalas");
+
+                    area.ProvinceList.Add(new Province(new Color32(255, 0, 0, 255), Nation.Find("Gondor")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 255, 0, 255), Nation.Find("Gondor")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 0, 255, 255), Nation.Find("Gondor")));
+
+                    area.ProvinceList.Add(new Province(new Color32(255, 255, 0, 255), Nation.Find("Gondor")));
+                    area.ProvinceList.Add(new Province(new Color32(255, 0, 255, 255), Nation.Find("Gondor")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 255, 255, 255), Nation.Find("Gondor")));
+
+                    area.ProvinceList.Add(new Province(new Color32(102, 0, 0, 255), Nation.Find("Gondor")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 102, 0, 255), Nation.Find("Gondor")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 0, 102, 255), Nation.Find("Gondor")));
+
                     area = Area.Find("Belfalas");
 
                     area.ProvinceList.Add(new Province(new Color32(255, 0, 0, 255), Nation.Find("Gondor")));
@@ -305,6 +319,7 @@ public class Map : MonoBehaviour
                 region.AreaList.Add(new Area("Lebennin", new Color32(0, 0, 255, 255)));
 
                 region.AreaList.Add(new Area("Lamgedon", new Color32(255, 255, 0, 255)));
+                region.AreaList.Add(new Area("East Anfalas", new Color32(255, 0, 255, 255)));
                 region.AreaList.Add(new Area("Belfalas", new Color32(0, 255, 255, 255)));
 
                 Province.PopulateProvinceLists();
