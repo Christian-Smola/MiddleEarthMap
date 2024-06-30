@@ -401,7 +401,7 @@ public class Map : MonoBehaviour
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
-            TextRendering.ParseFont(Environment.CurrentDirectory + @"\Assets\Resources\Fonts\JetBrainsMono-Bold.ttf");
+            TextRendering.FontData.Parse(Environment.CurrentDirectory + @"\Assets\Resources\Fonts\JetBrainsMono-Bold.ttf");
 
         if (Input.GetMouseButtonDown(0))
         {
