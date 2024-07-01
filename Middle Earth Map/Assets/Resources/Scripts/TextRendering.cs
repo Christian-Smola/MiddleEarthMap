@@ -686,4 +686,28 @@ public class TextRendering
     }
 
     public static Vector2 LinearInterpolation(Vector2 start, Vector2 end, float t) => start + (end - start) * t;
+
+    public static void DickButts()
+    {
+        //(string name, int value)[] NameValuePairs = new (string name, int value)[] { ("blah", 2), ("this shit", 7) };
+
+        //(string name, int value) pair = NameValuePairs[0];
+
+        //pair.value++;
+
+        //int index = NameValuePairs.ToList().IndexOf(NameValuePairs.Where(NVP => NVP.name == "blah").First());
+
+        //NameValuePairs[index] = pair;
+
+        //Debug.Log(NameValuePairs[0].value);
+
+        Dictionary<string, int> NameValuePairs = new Dictionary<string, int>();
+
+        NameValuePairs.Add("blah", 2);
+        NameValuePairs.Add("this shit", 8);
+
+        NameValuePairs["blah"] += 1;
+
+        Debug.Log(NameValuePairs.ToList().OrderByDescending(V => V.Value).First().Key);
+    }
 }

@@ -22,11 +22,13 @@ public class TextRenderingMono : MonoBehaviour
 
     private void Start()
     {
-        fontData = TextRendering.FontData.Parse(Environment.CurrentDirectory + @"\Assets\Resources\Fonts\JetBrainsMono-Bold.ttf");
+        //fontData = TextRendering.FontData.Parse(Environment.CurrentDirectory + @"\Assets\Resources\Fonts\JetBrainsMono-Bold.ttf");
 
         //glyph = TextRendering.Glyphs[1];
 
         //ShaderSetup();
+
+        TextRendering.DickButts();
     }
 
     private void OnDrawGizmos()
