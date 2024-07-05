@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.TextCore;
 
 public class TextRenderingMono : MonoBehaviour
 {
@@ -22,18 +19,19 @@ public class TextRenderingMono : MonoBehaviour
 
     private void Start()
     {
-        //fontData = TextRendering.FontData.Parse(Environment.CurrentDirectory + @"\Assets\Resources\Fonts\JetBrainsMono-Bold.ttf");
+        fontData = TextRendering.FontData.Parse(Environment.CurrentDirectory + @"\Assets\Resources\Fonts\JetBrainsMono-Bold.ttf");
 
         //glyph = TextRendering.Glyphs[1];
 
         //ShaderSetup();
-
-        TextRendering.DickButts();
     }
 
     private void OnDrawGizmos()
     {
-        if (TextRendering.Glyphs.Count > 0)
+        int wordSpacing = 800;
+        int letterSpacing = 500;
+
+        if (fontData != null)
         {
             string text = "Hello World";
             Vector2 offset = Vector2.zero;
@@ -42,15 +40,15 @@ public class TextRenderingMono : MonoBehaviour
             {
                 if (character == ' ')
                 {
-                    offset.x += 2;
+                    offset.x += wordSpacing;
                     continue;
                 }
 
-                //TextRendering.GlyphData glyphData = fontData.AllGlyphs[character];
+                TextRendering.GlyphData glyph = fontData.Glyphs.ToList().Where(G => G.UnicodeValue == character).First();
 
-                //TextRendering.GlyphData.GlyphDrawTest(glyph, offset);
+                TextRendering.GlyphData.GlyphDrawTest(glyph, offset);
 
-                offset.x = 1;
+                offset.x += letterSpacing;
             }
         }
     }

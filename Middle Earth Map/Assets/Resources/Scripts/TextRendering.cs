@@ -3,13 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.TextCore;
 
 public class TextRendering
 {
-    public static List<GlyphData> Glyphs = new List<GlyphData>();
-
     public class FontReader : IDisposable
     {
         private readonly Stream stream;
@@ -176,6 +175,9 @@ public class TextRendering
                 GlyphMap mapping = mappings[i];
 
                 GlyphData glyphData = ReadGlyph(reader, glyphLocations, mapping.GlyphIndex);
+
+                //glyphData = ConvertFromListOfVec2Arrays(CreateContoursWithImpliedPoints(glyphData));
+
                 glyphData.UnicodeValue = mapping.Unicode;
                 glyphs[i] = glyphData;
             }
@@ -185,12 +187,12 @@ public class TextRendering
 
         public static GlyphData ReadSimpleGlyph(FontReader reader, uint[] glyphLocations, uint glyphIndex)
         {
-            const int OnCurve = 0;
-            const int IsSingleByteX = 1;
-            const int IsSingleByteY = 2;
+            //const int OnCurve = 0;
+            //const int IsSingleByteX = 1;
+            //const int IsSingleByteY = 2;
             const int Repeat = 3;
-            const int InstructionX = 4;
-            const int InstructionY = 5;
+            //const int InstructionX = 4;
+            //const int InstructionY = 5;
 
             reader.GoTo(glyphLocations[glyphIndex]);
 
@@ -246,38 +248,6 @@ public class TextRendering
             glyphData.ContourEndIndices = contourEndIndices;
 
             return glyphData;
-
-            //int[] contourEndIndices = new int[reader.ReadUInt16()];
-            //reader.SkipBytes(8);
-
-            //for (int i = 0; i < contourEndIndices.Length; i++)
-            //    contourEndIndices[i] = reader.ReadUInt16();
-
-            //int numPoints = contourEndIndices[^1] + 1;
-            //byte[] allFlags = new byte[numPoints];
-            //reader.SkipBytes(reader.ReadUInt16());
-
-            //for (int i = 0; i < numPoints; i++)
-            //{
-            //    byte flag = reader.ReadByte();
-            //    allFlags[i] = flag;
-
-            //    if (FontReader.FlagBitIsSet(flag, 3))
-            //    {
-            //        for (int r = 0; r < reader.ReadByte(); r++)
-            //        {
-            //            i++;
-            //            allFlags[i] = flag;
-            //        }
-            //    }
-            //}
-
-            //Point[] points = new Point[numPoints];
-
-            //FontReader.ReadCoordinates(points, reader, allFlags, true);
-            //FontReader.ReadCoordinates(points, reader, allFlags, false);
-
-            //return new GlyphData(points, contourEndIndices);
         }
 
         public static GlyphData ReadCompoundGlyph(FontReader reader, uint[] glyphLocations, uint glyphIndex)
@@ -404,28 +374,57 @@ public class TextRendering
             return allGlyphLocations;
         }
 
-        public static void GlyphDrawTest(GlyphData glyph)
+        public static List<Vector2[]> CreateContoursWithImpliedPoints(GlyphData glyph, float scale = 1)
         {
-            int contourStartIndex = 0;
+            List<Vector2[]> contours = new List<Vector2[]>();
 
-            foreach (int contourEndIndex in glyph.ContourEndIndices)
+            int contourStart = 0;
+
+            foreach (int contourEnd in glyph.ContourEndIndices)
             {
-                int numPointsInContour = contourEndIndex - contourStartIndex + 1;
+                Span<Point> originalContour = glyph.Points.AsSpan(contourStart, contourEnd - contourStart + 1);
+                int pointOffset;
 
-                Span<Point> points = glyph.Points.AsSpan(contourStartIndex, numPointsInContour);
+                for (pointOffset = 0; pointOffset < originalContour.Length; pointOffset++)
+                    if (originalContour[pointOffset].OnCurve == 1)
+                        break;
 
-                for (int i = 0; i < points.Length; i += 2)
+                List<Vector2> newContour = new List<Vector2>();
+
+                for (int i = 0; i < originalContour.Length; i++)
                 {
-                    Point p1 = points[i];
-                    Point p2 = points[(i + 1) % points.Length];
-                    Point p3 = points[(i + 2) % points.Length];
-                    DrawBezier(p1.ToVec2(), p2.ToVec2(), p3.ToVec2(), 30);
+                    Point curr = originalContour[(i + pointOffset) % originalContour.Length];
+                    Point next = originalContour[(i + pointOffset + 1) % originalContour.Length];
+                    newContour.Add(new Vector2(curr.X, curr.Y) * scale);
+
+                    if (curr.OnCurve == next.OnCurve & i < originalContour.Length)
+                    {
+                        Vector2 mid = new Vector2(curr.X + next.X, curr.Y + next.Y) / 2f * scale;
+                        newContour.Add(mid);
+                    }
                 }
-                contourStartIndex = contourEndIndex + 1;
+
+                contours.Add(newContour.ToArray());
+                contourStart = contourEnd + 1;
             }
 
-            //for (int i = 0; i < glyph.Points.Length; i++)
-            //    Gizmos.DrawPoint(glyph.Points[i]);
+            return contours;
+        }
+
+        public static void GlyphDrawTest(GlyphData glyph, Vector2 offset)
+        {
+            List<Vector2[]> contours = CreateContoursWithImpliedPoints(glyph);
+
+            foreach (Vector2[] contour in contours)
+            {
+                for (int i = 0; i < contour.Length; i += 2)
+                {
+                    Vector2 p1 = contour[i] + offset;
+                    Vector2 p2 = contour[(i + 1) % contour.Length] + offset;
+                    Vector2 p3 = contour[(i + 2) % contour.Length] + offset;
+                    DrawBezier(p1, p2, p3, 30);
+                }
+            }
         }
 
         public static void DrawBezier(Vector2 p1, Vector2 p2, Vector2 p3, int resolution)
@@ -686,28 +685,4 @@ public class TextRendering
     }
 
     public static Vector2 LinearInterpolation(Vector2 start, Vector2 end, float t) => start + (end - start) * t;
-
-    public static void DickButts()
-    {
-        //(string name, int value)[] NameValuePairs = new (string name, int value)[] { ("blah", 2), ("this shit", 7) };
-
-        //(string name, int value) pair = NameValuePairs[0];
-
-        //pair.value++;
-
-        //int index = NameValuePairs.ToList().IndexOf(NameValuePairs.Where(NVP => NVP.name == "blah").First());
-
-        //NameValuePairs[index] = pair;
-
-        //Debug.Log(NameValuePairs[0].value);
-
-        Dictionary<string, int> NameValuePairs = new Dictionary<string, int>();
-
-        NameValuePairs.Add("blah", 2);
-        NameValuePairs.Add("this shit", 8);
-
-        NameValuePairs["blah"] += 1;
-
-        Debug.Log(NameValuePairs.ToList().OrderByDescending(V => V.Value).First().Key);
-    }
 }
