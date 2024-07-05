@@ -291,6 +291,27 @@ public class Map : MonoBehaviour
                     area.ProvinceList.Add(new Province(new Color32(255, 102, 102, 255), Nation.Find("Gondor")));
                     area.ProvinceList.Add(new Province(new Color32(102, 255, 102, 255), Nation.Find("Gondor")));
                     area.ProvinceList.Add(new Province(new Color32(102, 102, 255, 255), Nation.Find("Gondor")));
+
+                    area = Area.Find("Ered Nimrais Foothills");
+
+                    area.ProvinceList.Add(new Province(new Color32(255, 0, 0, 255), Nation.Find("Gondor")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 255, 0, 255), Nation.Find("Gondor")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 0, 255, 255), Nation.Find("Gondor")));
+
+                    area.ProvinceList.Add(new Province(new Color32(255, 255, 0, 255), Nation.Find("Gondor")));
+                    area.ProvinceList.Add(new Province(new Color32(255, 0, 255, 255), Nation.Find("Gondor")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 255, 255, 255), Nation.Find("Gondor")));
+
+                    area.ProvinceList.Add(new Province(new Color32(102, 0, 0, 255), Nation.Find("Gondor")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 102, 0, 255), Nation.Find("Gondor")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 0, 102, 255), Nation.Find("Gondor")));
+
+                    area.ProvinceList.Add(new Province(new Color32(102, 102, 0, 255), Nation.Find("Gondor")));
+                    area.ProvinceList.Add(new Province(new Color32(102, 0, 102, 255), Nation.Find("Gondor")));
+                    area.ProvinceList.Add(new Province(new Color32(0, 102, 102, 255), Nation.Find("Gondor")));
+
+                    area.ProvinceList.Add(new Province(new Color32(255, 102, 0, 255), Nation.Find("Gondor")));
+                    area.ProvinceList.Add(new Province(new Color32(255, 0, 102, 255), Nation.Find("Gondor")));
                 }
 
                 public Province(Color32 col, Nation owner) => (color, Owner) = (col, owner);
@@ -322,6 +343,7 @@ public class Map : MonoBehaviour
                 region.AreaList.Add(new Area("East Anfalas", new Color32(255, 0, 255, 255)));
                 region.AreaList.Add(new Area("Belfalas", new Color32(0, 255, 255, 255)));
 
+                region.AreaList.Add(new Area("Ered Nimrais Foothills", new Color32(102, 0, 0, 255)));
                 Province.PopulateProvinceLists();
             }
 
