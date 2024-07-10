@@ -28,12 +28,12 @@ public class TextRenderingMono : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        int wordSpacing = 800;
-        int letterSpacing = 500;
+        int wordSpacing = 700;
+        int letterSpacing = 520;
 
         if (fontData != null)
         {
-            string text = "Hello World";
+            string text = "Hello Middle Earth";
             Vector2 offset = Vector2.zero;
 
             foreach (char character in text)
